@@ -1,0 +1,6 @@
+-Whenever something is scanned in add it to the history list
+    -Recored the 
+        -UPC
+        -Title
+        -Date purchased
+        
