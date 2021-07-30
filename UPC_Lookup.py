@@ -1,7 +1,7 @@
 #Libraries
 import json
 import requests
-
+from datetime import date
 
 #Objects
 
@@ -22,6 +22,8 @@ class Item(object):
 inventory = []
 
 dictionaryBuffer = []
+
+historyBuffer = []
 
 
 
@@ -75,9 +77,19 @@ def save2File():
 
     inventoryFile = open(inventoryFileName,"w+")
     
+    #Inventory write
     for item in inventory:
         bufferStr = item.title + " , " + str(item.UPC) + " , " + str(item.quantity) + "\n"
         inventoryFile.write(bufferStr)
+
+
+    dictionaryFile = open(dictionaryFileName,"a+")
+
+    #Dictionary write
+    for item in dictionary:
+        bufferStr = item.title + " , " + str(item.UPC) + "\n"
+
+
 
 
 def itemScannedIn(upc):
@@ -128,8 +140,25 @@ def itemScannedIn(upc):
                 #Create a new object
                 newItem = Item(upc,title,1)
 
-                inventory.append(newItem)
+                addToInventory(newItem)
+                
                 dictionaryBuffer.append(newItem)
+
+def addToInventory(item):
+
+    global inventory
+
+    global history
+
+    inventory.append(item)
+
+    today = date.today()
+
+    currentDate = today.strftime("%d/%m/%Y")
+
+    historySTR = "IN , " + item.title + " , " + str(item.UPC) + " , " + currentDate
+
+    history.append(historySTR)
 
 
 
